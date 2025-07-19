@@ -1,20 +1,20 @@
 import React from "react";
+import "./GroupsPage.css";
 
-const teams = [
-  {
-    name: "CHS Scio",
-    members: [
-      { name: "John Doe", isAdmin: true },
-      { name: "Jane Smith", isAdmin: false },
-      { name: "Sam Brown", isAdmin: false },
-    ],
-  },
-  // Add other teams if applicable
-];
+function GroupsPage() {
+  const teams = [
+    {
+      name: "CHS Scio",
+      members: [
+        { name: "John Doe", isAdmin: true },
+        { name: "Jane Smith", isAdmin: false },
+        { name: "Sam Brown", isAdmin: false },
+      ],
+    },
+  ];
 
-const userTeams = ["CHS Scio"]; // Example: list of user's teams
+  const userTeams = ["CHS Scio"];
 
-export default function GroupsPage() {
   return (
     <div className="groups-page">
       <header className="groups-header">
@@ -47,3 +47,5 @@ export default function GroupsPage() {
     </div>
   );
 }
+
+export default GroupsPage;
