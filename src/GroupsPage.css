@@ -1,5 +1,5 @@
 .groups-root {
-  background: #181d24;
+  background: #101622;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@
 }
 
 .group-card {
-  background: #151920;
+  background: #181d24; 
   border-radius: 20px;
   padding: 36px 38px 26px 38px;
   margin: 28px 50px 0 50px;
@@ -119,6 +119,51 @@
   color: #fff;
 }
 
+/* Modal styles */
+.modal-backdrop {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.78);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #10161f;
+  color: #fff;
+  padding: 32px 36px;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #0008;
+  font-size: 1.18rem;
+  min-width: 320px;
+  text-align: center;
+}
+.modal-btn {
+  border: none;
+  border-radius: 7px;
+  font-size: 1.08em;
+  padding: 8px 24px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.modal-btn-no {
+  background: #222;
+  color: #fff;
+}
+.modal-btn-yes {
+  background: #ffd600;
+  color: #232834;
+  margin-left: 12px;
+}
+.modal-btn-no:hover {
+  background: #333;
+}
+.modal-btn-yes:hover {
+  background: #ffe066;
+}
+
 .teams-footer {
   background: #181f2a;
   color: #fff;
@@ -131,4 +176,20 @@
   position: fixed;
   left: 0;
   bottom: 0;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+}
+.footer-team-link {
+  color: #ffd600;
+  margin-left: 8px;
+  font-weight: 600;
+}
+.footer-team-link.active {
+  color: #fff;
+  text-decoration: none;
+  cursor: default;
+}
+.footer-team-link:hover {
+  text-decoration: underline;
 }

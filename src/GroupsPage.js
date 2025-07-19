@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./GroupsPage.css";
 
-function GroupsPage() {
-  // Demo data
-  const team = {
+// Example data structure for multiple teams
+const teamsData = [
+  {
     name: "CHS Scio",
     members: [
       { name: "John Doe", isAdmin: true },
@@ -12,8 +12,58 @@ function GroupsPage() {
     ],
     primaryAdmin: "John Doe",
     memberCount: 32,
-  };
-  const userTeams = ["CHS Scio"];
+  },
+  {
+    name: "Mathletes",
+    members: [
+      { name: "Emily Lin", isAdmin: true },
+      { name: "Sam Brown", isAdmin: false },
+      { name: "Alex Kim", isAdmin: false },
+    ],
+    primaryAdmin: "Emily Lin",
+    memberCount: 28,
+  },
+];
+
+export default function GroupsPage() {
+  // Assume user is Sam Brown
+  const userName = "Sam Brown";
+  const userTeams = teamsData
+    .filter((team) => team.members.some((m) => m.name === userName))
+    .map((team) => team.name);
+
+  // Controlled state for the currently viewed team
+  const [currentTeamName, setCurrentTeamName] = useState(userTeams[0]);
+  const [teams, setTeams] = useState(teamsData);
+
+  // Modal state for confirmation
+  const [pendingAdmin, setPendingAdmin] = useState(null);
+
+  // Find the current team object
+  const currentTeam = teams.find((team) => team.name === currentTeamName);
+
+  // Make a member admin after confirmation
+  function handleMakeAdmin(memberName) {
+    setPendingAdmin(memberName);
+  }
+  function confirmMakeAdmin() {
+    setTeams((oldTeams) =>
+      oldTeams.map((team) =>
+        team.name === currentTeamName
+          ? {
+              ...team,
+              members: team.members.map((m) =>
+                m.name === pendingAdmin ? { ...m, isAdmin: true } : m
+              ),
+            }
+          : team
+      )
+    );
+    setPendingAdmin(null);
+  }
+  function cancelMakeAdmin() {
+    setPendingAdmin(null);
+  }
 
   return (
     <div className="groups-root">
@@ -33,37 +83,74 @@ function GroupsPage() {
 
       <div className="group-card">
         <div className="group-card-header">
-          <div className="group-card-title">{team.name}</div>
+          <div className="group-card-title">{currentTeam.name}</div>
           <div className="group-card-info">
             <span className="group-info-item">
               <span role="img" aria-label="members" className="group-info-icon">👥</span>
-              {team.memberCount} Members
+              {currentTeam.memberCount} Members
             </span>
             <span className="group-info-item">
               <span role="img" aria-label="admin" className="group-info-icon">✔️</span>
-              {team.primaryAdmin}
+              {currentTeam.primaryAdmin}
             </span>
           </div>
         </div>
         <ul className="members-list">
-          {team.members.map((member, idx) => (
+          {currentTeam.members.map((member, idx) => (
             <li key={`${member.name}-${idx}`} className="member-item">
               <span>{member.name}</span>
               {member.isAdmin ? (
                 <span className="admin-badge">Admin</span>
               ) : (
-                <button className="make-admin-btn">Make Admin</button>
+                <button
+                  className="make-admin-btn"
+                  onClick={() => handleMakeAdmin(member.name)}
+                  disabled={pendingAdmin}
+                >
+                  Make Admin
+                </button>
               )}
             </li>
           ))}
         </ul>
       </div>
 
+      {/* Modal confirmation for making admin */}
+      {pendingAdmin && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            <p>
+              Are you sure you want to make <b>{pendingAdmin}</b> an admin?
+            </p>
+            <div style={{ display: "flex", gap: 20, marginTop: 18 }}>
+              <button className="modal-btn modal-btn-no" onClick={cancelMakeAdmin}>
+                No
+              </button>
+              <button className="modal-btn modal-btn-yes" onClick={confirmMakeAdmin}>
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <footer className="teams-footer">
-        Teams you are in: {userTeams.join(", ")}
+        Teams you are in:&nbsp;
+        {userTeams.map((teamName, i) => (
+          <span
+            key={teamName}
+            className={`footer-team-link${teamName === currentTeamName ? " active" : ""}`}
+            onClick={() => setCurrentTeamName(teamName)}
+            style={{
+              cursor: teamName !== currentTeamName ? "pointer" : "default",
+              textDecoration: teamName !== currentTeamName ? "underline" : "none",
+              marginRight: i < userTeams.length - 1 ? 8 : 0,
+            }}
+          >
+            {teamName}
+          </span>
+        ))}
       </footer>
     </div>
   );
 }
-
-export default GroupsPage;
