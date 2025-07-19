@@ -2,7 +2,6 @@ import React from "react";
 import "./GroupsPage.css";
 
 function GroupsPage() {
-  // Demo data
   const team = {
     name: "CHS Scio",
     members: [
@@ -19,13 +18,12 @@ function GroupsPage() {
         <h2>Your Teams</h2>
         <button className="create-team-btn">Create Team</button>
       </header>
-
       <main className="teams-main">
         <section className="team-section">
           <h3>{team.name}</h3>
           <ul className="members-list">
-            {team.members.map((member) => (
-              <li key={member.name} className="member-item">
+            {team.members.map((member, idx) => (
+              <li key={`${member.name}-${idx}`} className="member-item">
                 <span>{member.name}</span>
                 {member.isAdmin && <span className="admin-badge">Admin</span>}
                 {!member.isAdmin && (
@@ -36,7 +34,6 @@ function GroupsPage() {
           </ul>
         </section>
       </main>
-
       <footer className="teams-footer">
         <span>Teams you are in:&nbsp;</span>
         {userTeams.join(", ")}
