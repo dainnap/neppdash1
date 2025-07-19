@@ -6,7 +6,7 @@ import MyLogin from "./MyLogin";
 import Dashboard from "./Dashboard";
 import Resources from "./Resources";
 
-// Dummy icon components for sidebar (replace with SVG if you want)
+// Dummy icon components for sidebar 
 function DashboardIcon() { return <span>🏠</span>; }
 function GroupsIcon() { return <span>👥</span>; }
 function ResourcesIcon() { return <span>📚</span>; }
@@ -24,7 +24,7 @@ const SIDEBAR_TABS = [
   { key: "announcements", label: "Announcements", icon: <AnnouncementsIcon /> },
 ];
 
-// --- Groups Page with modal logic, create/delete, and prop state ---
+// --- Groups Page with modal logic, create/delete ---
 function Groups({ group, setGroup }) {
   const [showCreate, setShowCreate] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -237,7 +237,7 @@ function Groups({ group, setGroup }) {
   );
 }
 
-// --- Tutorial Modal, show only after sign up, not login ---
+// --- Tutorial Modal, show only after sign up
 function TutorialModal({ onClose }) {
   return (
     <div style={{
@@ -282,7 +282,7 @@ function TutorialModal({ onClose }) {
   );
 }
 
-// --- Fallbacks for other pages ---
+// 
 function Quizzes() {
   return <div style={{ color: "#fff", padding: 40 }}>Quizzes Page (Placeholder)</div>;
 }
@@ -316,7 +316,7 @@ export default function App() {
     return () => unsub();
   }, []);
 
-  // Show tutorial only after sign up, not login, and only once per account
+  // Show tutorial only after sign up
   useEffect(() => {
     if (user && justSignedUpEmail === user.email) {
       const key = getTutorialKey(user.email);
